@@ -1,0 +1,11 @@
+{
+  "Nickname": "SleepingOutfitRemover",
+  "Visibility": "Visible",
+  "OneLineDescription": "Removes Sleeping Outfits from NPCs",
+  "LongDescription": "Removes Sleeping Outfits from all winning NPC records",
+  "PreferredAutoVersioning": "Default",
+  "RequiredMods": [],
+  "TargetedReleases": [
+    "SkyrimSE"
+  ]
+}
