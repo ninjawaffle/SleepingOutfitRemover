@@ -16,22 +16,32 @@ namespace SleepingOutfitRemover
 
         public static void RunPatch(IPatcherState<ISkyrimMod, ISkyrimModGetter> state)
         {
-            var i = 0;
+            var processed = 0;
+            var edited = 0;
+
             // Loop over all the winning NPCs in the load order
             foreach (var npcGetter in state.LoadOrder.PriorityOrder.Npc().WinningOverrides())
             {
-                i++;
-                // Skip if Sleeping Outfit is already null
-                if (npcGetter.SleepingOutfit.IsNull) continue;
+                processed++;
+
+                // Skip if Sleeping Outfit is already null OR
+                // Skip if Inventory template flag is set
+                if (
+                    npcGetter.SleepingOutfit.IsNull || 
+                    npcGetter.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Inventory)
+                ) continue;
 
                 // Add NPC to the patch
                 var npc = state.PatchMod.Npcs.GetOrAddAsOverride(npcGetter);
 
                 // Set NPC Sleeping Outfit to null
                 npc.SleepingOutfit.SetToNull();
+
+                edited++;
             }
 
-            Console.WriteLine($"[SleepingOutfitRemover] Finished processing {i} records");
+            Console.WriteLine($"[SleepingOutfitRemover] Finished processing {processed} records");
+            Console.WriteLine($"[SleepingOutfitRemover] {edited} records edited");
         }
     }
 }
